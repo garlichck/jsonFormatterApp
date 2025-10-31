@@ -134,6 +134,7 @@ export default function App() {
 
   return (
     <div className="app">
+
       <div className="header">
         <div className="brand">
           <h1 style={{ margin: 0 }}>JSON Formatter</h1>
@@ -208,6 +209,12 @@ export default function App() {
           </div>
         </section>
       </div>
+
+      <footer style={{ marginTop: 32, padding: 16, textAlign: "center" }}>
+        <a href="/privacy" style={{ marginRight: 16 }}>Privacy</a>
+        <a href="/contact">Contact</a>
+      </footer>
+
     </div>
   )
 }
