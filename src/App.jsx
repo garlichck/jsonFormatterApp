@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react';
+import AdBanner from "./components/AdBanner";
 
 const LS_KEY_INPUT = 'jf.input'
 const LS_KEY_OUTPUT = 'jf.output'
@@ -193,6 +194,11 @@ export default function App() {
             placeholder='Your formatted / minified JSON will appear here…'
             aria-label="Output JSON"
           />
+
+          <section style={{ margin: "24px 0" }}>
+            <AdBanner slot="1257902074" />
+          </section>
+
           <div className="toolbar">
             <button onClick={copyOutput} disabled={!output}>Copy</button>
             <button onClick={downloadOutput} disabled={!output}>Download .json</button>
