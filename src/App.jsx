@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import AdBanner from "./components/AdBanner";
+import Footer from './components/Footer.jsx';
 
 const LS_KEY_INPUT = 'jf.input'
 const LS_KEY_OUTPUT = 'jf.output'
@@ -210,10 +211,7 @@ export default function App() {
         </section>
       </div>
 
-      <footer style={{ marginTop: 32, padding: 16, textAlign: "center" }}>
-        <a href="/privacy" style={{ marginRight: 16 }}>Privacy</a>
-        <a href="/contact">Contact</a>
-      </footer>
+      <Footer />
 
     </div>
   )
