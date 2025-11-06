@@ -3,8 +3,8 @@ import AdBanner from "./components/AdBanner";
 import HomeContent from './components/HomeContent.jsx';
 import Footer from './components/Footer.jsx';
 
-const LS_KEY_INPUT = 'jf.input'
-const LS_KEY_OUTPUT = 'jf.output'
+const LS_KEY_INPUT = 'jf.input';
+const LS_KEY_OUTPUT = 'jf.output';
 const DEFAULT_SAMPLE = `{
   "name": "Jane Doe",
   "age": 28,
@@ -12,128 +12,126 @@ const DEFAULT_SAMPLE = `{
   "active": true,
   "profile": { "github": "janedoe", "stars": 1234 },
   "notes": "Paste JSON here and click Format"
-}`
+}`;
 
 export default function App() {
-  const [input, setInput] = useState(localStorage.getItem(LS_KEY_INPUT) ?? DEFAULT_SAMPLE)
-  const [output, setOutput] = useState(localStorage.getItem(LS_KEY_OUTPUT) ?? '')
-  const hasMeaningfulContent = (output?.length || input?.length) > 120; // tune threshold
-  const [indent, setIndent] = useState(2)
-  const [status, setStatus] = useState({ ok: true, msg: 'Ready' })
-  const [lineCount, setLineCount] = useState(0)
-  const inputRef = useRef(null)
-  const outputRef = useRef(null)
+  const [input, setInput] = useState(localStorage.getItem(LS_KEY_INPUT) ?? DEFAULT_SAMPLE);
+  const [output, setOutput] = useState(localStorage.getItem(LS_KEY_OUTPUT) ?? '');
+  const hasMeaningfulOutput = (output?.trim().length ?? 0) > 0;
+  const [indent, setIndent] = useState(2);
+  const [status, setStatus] = useState({ ok: true, msg: 'Ready' });
+  const [lineCount, setLineCount] = useState(0);
+  const inputRef = useRef(null);
+  const outputRef = useRef(null);
 
   // Persist between refreshes
-  useEffect(() => { localStorage.setItem(LS_KEY_INPUT, input) }, [input])
-  useEffect(() => { localStorage.setItem(LS_KEY_OUTPUT, output) }, [output])
+  useEffect(() => { localStorage.setItem(LS_KEY_INPUT, input); }, [input]);
+  useEffect(() => { localStorage.setItem(LS_KEY_OUTPUT, output); }, [output]);
 
   // Live line count for input
   useEffect(() => {
-    setLineCount((input.match(/\n/g) || []).length + 1)
-  }, [input])
+    setLineCount((input.match(/\n/g) || []).length + 1);
+  }, [input]);
 
-  const inputIsEmpty = useMemo(() => input.trim().length === 0, [input])
+  const inputIsEmpty = useMemo(() => input.trim().length === 0, [input]);
 
   const validateJSON = () => {
     try {
-      JSON.parse(input)
-      setStatus({ ok: true, msg: 'Valid JSON' })
-      return true
+      JSON.parse(input);
+      setStatus({ ok: true, msg: 'Valid JSON' });
+      return true;
     } catch (e) {
-      setStatus({ ok: false, msg: e.message })
-      return false
+      setStatus({ ok: false, msg: e.message });
+      return false;
     }
-  }
+  };
 
   const formatJSON = () => {
     try {
-      const obj = JSON.parse(input)
-      const pretty = JSON.stringify(obj, null, Number(indent))
-      setOutput(pretty)
-      setStatus({ ok: true, msg: 'Formatted' })
+      const obj = JSON.parse(input);
+      const pretty = JSON.stringify(obj, null, Number(indent));
+      setOutput(pretty);
+      setStatus({ ok: true, msg: 'Formatted' });
     } catch (e) {
-      setStatus({ ok: false, msg: e.message })
+      setStatus({ ok: false, msg: e.message });
     }
-  }
+  };
 
   const minifyJSON = () => {
     try {
-      const obj = JSON.parse(input)
-      const min = JSON.stringify(obj)
-      setOutput(min)
-      setStatus({ ok: true, msg: 'Minified' })
+      const obj = JSON.parse(input);
+      const min = JSON.stringify(obj);
+      setOutput(min);
+      setStatus({ ok: true, msg: 'Minified' });
     } catch (e) {
-      setStatus({ ok: false, msg: e.message })
+      setStatus({ ok: false, msg: e.message });
     }
-  }
+  };
 
   const copyOutput = async () => {
-    if (!output) return
+    if (!output) return;
     try {
-      await navigator.clipboard.writeText(output)
-      setStatus({ ok: true, msg: 'Copied to clipboard' })
+      await navigator.clipboard.writeText(output);
+      setStatus({ ok: true, msg: 'Copied to clipboard' });
     } catch {
-      setStatus({ ok: false, msg: 'Clipboard unavailable' })
+      setStatus({ ok: false, msg: 'Clipboard unavailable' });
     }
-  }
+  };
 
   const downloadOutput = () => {
-    if (!output) return
-    const blob = new Blob([output], { type: 'application/json' })
-    const url = URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = 'formatted.json'
-    a.click()
-    URL.revokeObjectURL(url)
-  }
+    if (!output) return;
+    const blob = new Blob([output], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'formatted.json';
+    a.click();
+    URL.revokeObjectURL(url);
+  };
 
   const clearAll = () => {
-    setInput('')
-    setOutput('')
-    setStatus({ ok: true, msg: 'Cleared' })
-    inputRef.current?.focus()
-  }
+    setInput('');
+    setOutput('');
+    setStatus({ ok: true, msg: 'Cleared' });
+    inputRef.current?.focus();
+  };
 
-  const loadSample = () => setInput(DEFAULT_SAMPLE)
+  const loadSample = () => setInput(DEFAULT_SAMPLE);
 
   // Drag & drop JSON files into the input area
   const onDrop = (e) => {
-    e.preventDefault()
-    const file = e.dataTransfer?.files?.[0]
-    if (!file) return
-    const reader = new FileReader()
-    reader.onload = () => setInput(String(reader.result || ''))
-    reader.readAsText(file)
-  }
+    e.preventDefault();
+    const file = e.dataTransfer?.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => setInput(String(reader.result || ''));
+    reader.readAsText(file);
+  };
 
   const onPasteBeautify = async (e) => {
-    // Optional: if paste contains JSON, format automatically
-    // (Non-intrusive: we only parse if it looks like JSON quickly)
+    // If pasted text looks like JSON, auto-format into output (non-intrusive)
     setTimeout(() => {
       try {
-        const text = inputRef.current?.value ?? ''
-        const trimmed = text.trim()
+        const text = inputRef.current?.value ?? '';
+        const trimmed = text.trim();
         if ((trimmed.startsWith('{') && trimmed.endsWith('}')) ||
           (trimmed.startsWith('[') && trimmed.endsWith(']'))) {
-          JSON.parse(trimmed) // throws if invalid
-          // auto format into output to be helpful
-          setOutput(JSON.stringify(JSON.parse(trimmed), null, Number(indent)))
-          setStatus({ ok: true, msg: 'Auto-formatted pasted JSON' })
+          JSON.parse(trimmed); // throws if invalid
+          setOutput(JSON.stringify(JSON.parse(trimmed), null, Number(indent)));
+          setStatus({ ok: true, msg: 'Auto-formatted pasted JSON' });
         }
-      } catch { }
-    }, 0)
-  }
+      } catch { /* ignore */ }
+    }, 0);
+  };
 
   const onFileSelect = (e) => {
-    const file = e.target.files?.[0]
-    if (!file) return
-    const reader = new FileReader()
-    reader.onload = () => setInput(String(reader.result || ''))
-    reader.readAsText(file)
-    e.target.value = ''
-  }
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => setInput(String(reader.result || ''));
+    reader.readAsText(file);
+    e.target.value = '';
+  };
 
   return (
     <div className="app">
@@ -141,11 +139,17 @@ export default function App() {
       <div className="header">
         <div className="brand">
           <h1 style={{ margin: 0 }}>JSON Formatter</h1>
-          <span className="badge">All processing is local • No data uploaded</span>
         </div>
+        <span className="badge">All processing is local • No data uploaded</span>
+
         <div className="toolbar">
           <label className="badge" htmlFor="indent">Indent:</label>
-          <select id="indent" value={indent} onChange={(e) => setIndent(Number(e.target.value))} aria-label="Indentation spaces">
+          <select
+            id="indent"
+            value={indent}
+            onChange={(e) => setIndent(Number(e.target.value))}
+            aria-label="Indentation spaces"
+          >
             <option value={2}>2</option>
             <option value={4}>4</option>
             <option value={6}>6</option>
@@ -169,7 +173,7 @@ export default function App() {
               onChange={(e) => setInput(e.target.value)}
               onPaste={onPasteBeautify}
               spellCheck="false"
-              placeholder='Paste JSON here…'
+              placeholder="Paste JSON here…"
               aria-label="Input JSON"
             />
           </div>
@@ -195,9 +199,17 @@ export default function App() {
             value={output}
             onChange={(e) => setOutput(e.target.value)}
             spellCheck="false"
-            placeholder='Your formatted / minified JSON will appear here…'
+            placeholder="Your formatted / minified JSON will appear here…"
             aria-label="Output JSON"
           />
+
+          {/* Ad inside Output card, only when there is actual output */}
+          {hasMeaningfulOutput && (
+            <div style={{ marginTop: 16 }}>
+              {/* Replace with your real slot id for this placement */}
+              <AdBanner slot="1257902074" />
+            </div>
+          )}
 
           <div className="toolbar">
             <button onClick={copyOutput} disabled={!output}>Copy</button>
@@ -209,18 +221,16 @@ export default function App() {
         </section>
       </div>
 
-      {/* Ads only when content exists */}
-      {hasMeaningfulContent && (
-        <div style={{ marginTop: 24 }}>
-          <AdBanner slot="1257902074" />
-        </div>
-      )}
-
-      {/* NEW: long-form content that’s indexable by crawlers */}
+      {/* Long-form content that’s indexable by crawlers */}
       <HomeContent />
 
-      <Footer />
+      {/* Safe placement: an ad AFTER substantial content on first paint */}
+      <div style={{ marginTop: 24 }}>
+        {/* Use a DIFFERENT slot id from the Output ad */}
+        <AdBanner slot="PUT_A_DIFFERENT_SLOT_ID_HERE" />
+      </div>
 
+      <Footer />
     </div>
-  )
+  );
 }

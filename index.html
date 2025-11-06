@@ -1,53 +1,65 @@
 <!doctype html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Google Search Console verification -->
   <meta name="google-site-verification" content="zp1dhvKJcgWRi1NsMdQQyn3ubpgai9OqvQkC5MMHDAY" />
 
-  <!-- ✅ Basic SEO -->
+  <!-- Basic SEO -->
   <title>JSON Formatter | Fast & Secure Online JSON Beautifier</title>
-  <meta name="description"
-    content="Format, validate, and beautify JSON instantly. Free online JSON formatter that runs entirely in your browser — no data uploaded." />
-  <meta name="keywords"
-    content="JSON formatter, beautifier, validator, minify JSON, JSON viewer, online JSON tool, jsonformatterapp" />
+  <meta name="description" content="Format, validate, and beautify JSON instantly. Free online JSON formatter that runs entirely in your browser — no data uploaded." />
+  <link rel="canonical" href="https://jsonformatterapp.vercel.app/" />
 
-  <!-- ✅ Open Graph (for sharing on LinkedIn / Facebook) -->
+  <!-- Open Graph -->
   <meta property="og:title" content="JSON Formatter | Fast & Secure Online JSON Beautifier" />
-  <meta property="og:description"
-    content="Instantly format, validate, and minify JSON — all processing done locally in your browser." />
+  <meta property="og:description" content="Instantly format, validate, and minify JSON — all processing done locally in your browser." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://jsonformatterapp.vercel.app/" />
   <meta property="og:image" content="https://jsonformatterapp.vercel.app/og-image.png" />
 
-  <!-- ✅ Twitter Card -->
+  <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="JSON Formatter | Fast & Secure Online JSON Beautifier" />
   <meta name="twitter:description" content="Format and validate JSON instantly — free, secure, and offline-ready." />
   <meta name="twitter:image" content="https://jsonformatterapp.vercel.app/og-image.png" />
 
-  <!-- ✅ Favicon -->
+  <!-- Favicon -->
   <link rel="icon" type="image/png" href="/favicon.png" />
 
-  <!-- ✅ Optional theme color for browser tab -->
+  <!-- Theme color -->
   <meta name="theme-color" content="#0f172a" />
 
-  <link rel="canonical" href="https://jsonformatterapp.vercel.app/" />
-  <meta name="description"
-    content="Free JSON Formatter & Validator. Pretty print, minify and validate JSON in your browser." />
-  <meta property="og:title" content="JSON Formatter & Validator" />
-  <meta property="og:description" content="Pretty-print, minify and validate JSON with examples." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://jsonformatterapp.vercel.app/" />
+  <!-- (Optional) AdSense account meta -->
+  <meta name="google-adsense-account" content="ca-pub-1661788430529506" />
 
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1661788430529506"
+  <!-- AdSense script (include once) -->
+  <script async
+    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1661788430529506"
     crossorigin="anonymous"></script>
+
+  <!-- JSON-LD structured data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "JSON Formatter",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Web",
+    "description": "Online JSON beautifier, minifier, and validator. Fast & privacy-friendly: all processing is in your browser.",
+    "url": "https://jsonformatterapp.vercel.app",
+    "image": "https://jsonformatterapp.vercel.app/og-image.png",
+    "author": {
+      "@type": "Person",
+      "name": "JSON Formatter App"
+    }
+  }
+  </script>
 </head>
 
 <body>
   <div id="root"></div>
   <script type="module" src="/src/main.jsx"></script>
 </body>
-
 </html>
