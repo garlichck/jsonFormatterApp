@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import AdBanner from "./components/AdBanner";
+import HomeContent from './components/HomeContent.jsx';
 import Footer from './components/Footer.jsx';
 
 const LS_KEY_INPUT = 'jf.input'
@@ -16,6 +17,7 @@ const DEFAULT_SAMPLE = `{
 export default function App() {
   const [input, setInput] = useState(localStorage.getItem(LS_KEY_INPUT) ?? DEFAULT_SAMPLE)
   const [output, setOutput] = useState(localStorage.getItem(LS_KEY_OUTPUT) ?? '')
+  const hasMeaningfulContent = (output?.length || input?.length) > 120; // tune threshold
   const [indent, setIndent] = useState(2)
   const [status, setStatus] = useState({ ok: true, msg: 'Ready' })
   const [lineCount, setLineCount] = useState(0)
@@ -197,10 +199,6 @@ export default function App() {
             aria-label="Output JSON"
           />
 
-          <section style={{ margin: "24px 0" }}>
-            <AdBanner slot="1257902074" />
-          </section>
-
           <div className="toolbar">
             <button onClick={copyOutput} disabled={!output}>Copy</button>
             <button onClick={downloadOutput} disabled={!output}>Download .json</button>
@@ -210,6 +208,16 @@ export default function App() {
           </div>
         </section>
       </div>
+
+      {/* Ads only when content exists */}
+      {hasMeaningfulContent && (
+        <div style={{ marginTop: 24 }}>
+          <AdBanner slot="1257902074" />
+        </div>
+      )}
+
+      {/* NEW: long-form content that’s indexable by crawlers */}
+      <HomeContent />
 
       <Footer />
 
