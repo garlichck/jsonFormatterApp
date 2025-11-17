@@ -224,11 +224,13 @@ export default function App() {
       {/* Long-form content that’s indexable by crawlers */}
       <HomeContent />
 
-      {/* Safe placement: an ad AFTER substantial content on first paint */}
-      <div style={{ marginTop: 24 }}>
-        {/* Use a DIFFERENT slot id from the Output ad */}
-        <AdBanner slot="PUT_A_DIFFERENT_SLOT_ID_HERE" />
-      </div>
+      {/* Optional second ad: only show when there is meaningful output as well */}
+      {hasMeaningfulOutput && (
+        <div style={{ marginTop: 24 }}>
+          {/* Use a DIFFERENT slot id from the Output ad */}
+          <AdBanner slot="PUT_A_DIFFERENT_SLOT_ID_HERE" />
+        </div>
+      )}
 
       <Footer />
     </div>
